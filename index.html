@@ -2,204 +2,311 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>Text Display Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Text Customizer Pro</title>
   <style>
     body {
-      background-color: #f0f0f0;
-      color: #000;
+      background-color: #f8f9fa;
+      color: #212529;
+      font-family: 'Roboto', Tahoma, sans-serif;
       margin: 0;
       padding: 0;
-      font-family: Tahoma, sans-serif;
-      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      transition: all 0.3s ease;
     }
 
     .container {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+      max-width: 600px;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 20px;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      font-size: 24px;
       text-align: center;
+      color: #4caf50;
     }
-    
-    .header {
-      margin-bottom: 20px;
-    }
-    
-    .text-input {
-      width: 300px;
-      height: 100px;
-      margin-bottom: 20px;
+
+    textarea {
+      width: 100%;
+      height: 120px;
       font-size: 16px;
-    }
-    
-    .text-output {
-      white-space: pre-wrap;
-      font-family: Tahoma, sans-serif;
-      background-color: #fff;
-      color: #000;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      resize: none;
       text-align: right;
       direction: rtl;
-      font-size: 20px;
-      line-height: 1.5;
-      margin-bottom: 20px;
-      transition: background-color 0.3s, color 0.3s;
     }
-    
+
     .options {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 10px;
       gap: 10px;
     }
-    
-    .options label {
-      margin: 0 5px;
+
+    .text-output {
+      white-space: pre-wrap;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f1f1f1;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      font-size: 18px;
+      text-align: justify;
+      direction: rtl;
+      line-height: 1.6;
+      transition: all 0.3s ease;
     }
-    
-    .button {
+
+    .display-button {
+      display: block;
+      margin: 0 auto;
+      margin-top: 10px;
       padding: 10px 20px;
+      font-size: 18px;
       background-color: #4caf50;
       color: #fff;
       border: none;
-      border-radius: 4px;
-      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    
-    .button:hover {
-      background-color: #45a049;
-    }
-    
-    .footer {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      font-size: 12px;
-      color: #777;
-      direction: rtl;
-    }
-    
-    .hidden {
-      display: none;
-    }
-    
-    /* Dark mode styles */
-    .dark-mode {
-      background-color: #333;
-      color: #f0f0f0;
-    }
-    
-    .dark-mode .text-output {
-      background-color: #444;
-      color: #f0f0f0;
-      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-    }
-  </style>
-  <script>
-    function displayText() {
-      var inputText = document.getElementById("input-text").value;
-      var mode = document.querySelector('input[name="mode"]:checked').value;
-      var fontFamily = document.getElementById("font-family").value;
-      var fontSize = document.getElementById("font-size").value;
-      var isBold = document.getElementById("bold").checked;
-      var outputElement = document.getElementById("output-text");
-      var newButton = document.getElementById("new-button");
-      var textSection = document.getElementById("text-section");
-      
-      outputElement.innerHTML = escapeHtml(inputText);
-      
-      outputElement.style.direction = mode;
-      outputElement.style.fontFamily = fontFamily;
-      outputElement.style.fontSize = fontSize + "px";
-      outputElement.style.fontWeight = isBold ? "bold" : "normal";
-      
-      textSection.classList.add("hidden");
-      newButton.classList.remove("hidden");
-    }
-    
-    function escapeHtml(text) {
-      var map = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "\"": "&quot;",
-        "'": "&#039;"
-      };
-      
-      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-    }
-    
-    function showTextSection() {
-      var textSection = document.getElementById("text-section");
-      var newButton = document.getElementById("new-button");
-      
-      textSection.classList.remove("hidden");
-      newButton.classList.add("hidden");
+      transition: background-color 0.3s ease;
+      text-align: center;
     }
 
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
+    .display-button:hover {
+      background-color: #45a049;
     }
-  </script>
+
+    .fullscreen-mode .display-button {
+      display: none;
+    }
+
+    .action-buttons-container {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .action-buttons-container button {
+      font-size: 24px;
+      background: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .action-buttons-container button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .fullscreen-mode {
+      background-color: #212529;
+      color: #f8f9fa;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    .fullscreen-mode .text-output {
+      font-size: 24px;
+      max-width: 90%;
+      background: none;
+      box-shadow: none;
+      text-align: justify;
+      direction: rtl;
+      margin: 0 auto;
+    }
+
+    .fullscreen-mode .container {
+      box-shadow: none;
+      background: none;
+      padding: 0;
+    }
+
+    .fullscreen-mode .options, .fullscreen-mode h1, .fullscreen-mode textarea {
+      display: none;
+    }
+
+    .share-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: transparent;
+      color: #4caf50;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .share-button:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+      transform: scale(1.1);
+    }
+
+    .copy-toast {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <div id="text-section">
-      <textarea id="input-text" class="text-input" placeholder="متن را وارد کنید"></textarea>
-      
-      <div class="options">
-        <div>
-          <label for="rtl-mode">راست به چپ</label>
-          <input type="radio" id="rtl-mode" name="mode" value="rtl" checked>
-          <label for="ltr-mode">چپ به راست</label>
-          <input type="radio" id="ltr-mode" name="mode" value="ltr">
-        </div>
-        
-        <div>
-          <label for="font-family">فونت:</label>
-          <select id="font-family">
-            <option value="Tahoma" selected>تاهوما</option>
-            <option value="Arial">اریال</option>
-            <option value="Times New Roman">تایمز نیو رومن</option>
-            <option value="Verdana">وردانا</option>
-          </select>
-        </div>
-        
-        <div>
-          <label for="font-size">اندازه فونت:</label>
-          <input type="number" id="font-size" value="20" min="1">
-        </div>
-        
-        <div>
-          <label for="bold">ضخیم</label>
-          <input type="checkbox" id="bold">
-        </div>
-        
-        <div>
-          <label for="dark-mode-toggle">حالت تاریک</label>
-          <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
-        </div>
-      </div>
-      
-      <button class="button" onclick="displayText()">نمایش متن</button>
-    </div>
-    
-    <button id="new-button" class="button hidden" onclick="showTextSection()">متن جدید</button>
-    
-    <pre id="output-text" class="text-output"></pre>
-    
-    <div class="footer">
-      <p style="text-align: right;">
-      <a href="https://www.instagram.com/ehsanrahimio">Rahimi</a>
-      </p>
-    </div>
+    <h1>سفارشی‌سازی متن</h1>
+    <textarea id="input-text" placeholder="متن خود را وارد کنید"></textarea>
+
+    <button class="display-button" onclick="updatePreviewAndFullscreen()">نمایش</button>
+
+    <div id="output-text" class="text-output">پیش‌نمایش متن شما در اینجا نمایش داده می‌شود...</div>
   </div>
+
+  <div class="action-buttons-container" id="action-buttons">
+    <button onclick="increaseFontSize()">➕</button>
+    <button onclick="decreaseFontSize()">➖</button>
+    <button onclick="copyToClipboard()">📑</button>
+    <button onclick="toggleAlignment()">🔛</button>
+    <button onclick="toggleFullscreen()">🖥️</button>
+  </div>
+
+  <button class="share-button" onclick="shareContent()">📤</button>
+
+  <div id="copy-toast" class="copy-toast">متن کپی شد</div>
+
+  <script>
+    let isFullscreen = false;
+    let isRightAligned = true;
+
+    function updatePreviewAndFullscreen() {
+      updatePreview();
+      toggleFullscreen();
+    }
+
+    function updatePreview() {
+      const text = document.getElementById("input-text").value;
+      const output = document.getElementById("output-text");
+      output.textContent = text;
+    }
+
+    function toggleFullscreen() {
+      const body = document.body;
+      isFullscreen = !isFullscreen;
+
+      if (isFullscreen) {
+        body.classList.add("fullscreen-mode");
+      } else {
+        body.classList.remove("fullscreen-mode");
+      }
+    }
+
+    function toggleAlignment() {
+      const inputText = document.getElementById("input-text");
+      const outputText = document.getElementById("output-text");
+      isRightAligned = !isRightAligned;
+
+      if (isRightAligned) {
+        inputText.style.textAlign = "right";
+        inputText.style.direction = "rtl";
+        outputText.style.textAlign = "justify";
+        outputText.style.direction = "rtl";
+        inputText.placeholder = "متن خود را وارد کنید";
+        document.querySelector("h1").textContent = "سفارشی‌سازی متن";
+      } else {
+        inputText.style.textAlign = "left";
+        inputText.style.direction = "ltr";
+        outputText.style.textAlign = "justify";
+        outputText.style.direction = "ltr";
+        inputText.placeholder = "Enter your text here";
+        document.querySelector("h1").textContent = "Text Customizer";
+      }
+    }
+
+    function increaseFontSize() {
+      const output = document.getElementById("output-text");
+      const currentSize = parseInt(window.getComputedStyle(output).fontSize, 10);
+      output.style.fontSize = (currentSize + 6) + "px";
+    }
+
+    function decreaseFontSize() {
+      const output = document.getElementById("output-text");
+      const currentSize = parseInt(window.getComputedStyle(output).fontSize, 10);
+      if (currentSize > 10) {
+        output.style.fontSize = (currentSize - 6) + "px";
+      }
+    }
+
+    function copyToClipboard() {
+      const output = document.getElementById("output-text");
+      navigator.clipboard.writeText(output.textContent).then(() => {
+        showCopyToast();
+      });
+    }
+
+    function showCopyToast() {
+      const toast = document.getElementById("copy-toast");
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+
+    function shareContent() {
+      const text = document.getElementById("output-text").textContent;
+      const url = window.location.href;
+      const shareData = {
+        title: 'Shared Content',
+        text: text,
+        url: url
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch((err) => console.error('Error sharing:', err));
+      } else {
+        alert('Sharing is not supported in this browser.');
+      }
+    }
+  </script>
 </body>
 </html>
