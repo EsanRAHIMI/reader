@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Display Example</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .header {
+      margin-bottom: 20px;
+    }
+    
+    .text-input {
+      width: 300px;
+      height: 100px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    
+    .text-output {
+      white-space: pre-wrap;
+      font-family: Tahoma, sans-serif;
+      background-color: #fff;
+      color: #000;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      text-align: right;
+      direction: rtl;
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    
+    .options label {
+      margin: 0 5px;
+    }
+    
+    .button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .button:hover {
+      background-color: #45a049;
+    }
+    
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      font-size: 12px;
+      color: #777;
+      direction: rtl;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Dark mode styles */
+    .dark-mode {
+      background-color: #333;
+      color: #f0f0f0;
+    }
+    
+    .dark-mode .text-output {
+      background-color: #444;
+      color: #f0f0f0;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    }
+  </style>
+  <script>
+    function displayText() {
+      var inputText = document.getElementById("input-text").value;
+      var mode = document.querySelector('input[name="mode"]:checked').value;
+      var fontFamily = document.getElementById("font-family").value;
+      var fontSize = document.getElementById("font-size").value;
+      var isBold = document.getElementById("bold").checked;
+      var outputElement = document.getElementById("output-text");
+      var newButton = document.getElementById("new-button");
+      var textSection = document.getElementById("text-section");
+      
+      outputElement.innerHTML = escapeHtml(inputText);
+      
+      outputElement.style.direction = mode;
+      outputElement.style.fontFamily = fontFamily;
+      outputElement.style.fontSize = fontSize + "px";
+      outputElement.style.fontWeight = isBold ? "bold" : "normal";
+      
+      textSection.classList.add("hidden");
+      newButton.classList.remove("hidden");
+    }
+    
+    function escapeHtml(text) {
+      var map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+      };
+      
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+    
+    function showTextSection() {
+      var textSection = document.getElementById("text-section");
+      var newButton = document.getElementById("new-button");
+      
+      textSection.classList.remove("hidden");
+      newButton.classList.add("hidden");
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div id="text-section">
+      <textarea id="input-text" class="text-input" placeholder="متن را وارد کنید"></textarea>
+      
+      <div class="options">
+        <div>
+          <label for="rtl-mode">راست به چپ</label>
+          <input type="radio" id="rtl-mode" name="mode" value="rtl" checked>
+          <label for="ltr-mode">چپ به راست</label>
+          <input type="radio" id="ltr-mode" name="mode" value="ltr">
+        </div>
+        
+        <div>
+          <label for="font-family">فونت:</label>
+          <select id="font-family">
+            <option value="Tahoma" selected>تاهوما</option>
+            <option value="Arial">اریال</option>
+            <option value="Times New Roman">تایمز نیو رومن</option>
+            <option value="Verdana">وردانا</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="font-size">اندازه فونت:</label>
+          <input type="number" id="font-size" value="20" min="1">
+        </div>
+        
+        <div>
+          <label for="bold">ضخیم</label>
+          <input type="checkbox" id="bold">
+        </div>
+        
+        <div>
+          <label for="dark-mode-toggle">حالت تاریک</label>
+          <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
+        </div>
+      </div>
+      
+      <button class="button" onclick="displayText()">نمایش متن</button>
+    </div>
+    
+    <button id="new-button" class="button hidden" onclick="showTextSection()">متن جدید</button>
+    
+    <pre id="output-text" class="text-output"></pre>
+    
+    <div class="footer">
+      <p style="text-align: right;">
+      <a href="https://www.instagram.com/ehsanrahimio">Rahimi</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
